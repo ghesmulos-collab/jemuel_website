@@ -14,6 +14,19 @@
     --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     --radius: 20px;
     --radius-sm: 12px;
+
+    /* Theme-dependent background linear grid opacity */
+    --grid-opacity: 0.03;
+}
+
+/* --- Dark Theme Variables --- */
+[data-theme="dark"] {
+    --bg-color: #1A1D14; /* Deep, muted dark olive-black */
+    --card-bg: #22261B; /* Slightly lighter dark olive for cards */
+    --text-main: #E6EADF; /* Crisp off-white */
+    --text-muted: #A3AA99; /* Soft grayish-green for descriptions */
+    --border-color: #323829; /* Deep subtle border */
+    --grid-opacity: 0.05; /* Slightly higher contrast for dark mode grids */
 }
 
 /* --- New Navigation Styles --- */
@@ -38,12 +51,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.8rem 1.5rem;
-    /* Reduced opacity from 0.8 to 0.1 for high transparency */
-    background-color: rgba(248, 245, 239, 0.1); 
-    /* The blur effect keeps it looking professional even when transparent */
+    /* Uses current theme variable color with alpha opacity */
+    background-color: var(--card-bg); 
+    opacity: 0.95;
     backdrop-filter: blur(10px); 
     border-radius: 50px;
-    border: 1px solid rgba(223, 217, 205, 0.3); /* Slightly lighter border */
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
 }
 
 .nav-logo {
@@ -72,9 +86,28 @@
     color: var(--primary);
 }
 
+/* Theme Toggle Button Styles */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    font-size: 1.15rem;
+    cursor: pointer;
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.theme-toggle-btn:hover {
+    transform: scale(1.15);
+    background-color: var(--border-color);
+}
+
 .nav-btn {
     background-color: var(--text-main);
-    color: #fff;
+    color: var(--bg-color); /* Dynamically maps beautifully in both light and dark mode */
     padding: 0.6rem 1.2rem;
     border-radius: 50px;
     text-decoration: none;
@@ -87,6 +120,7 @@
 
 .nav-btn:hover {
     background-color: var(--primary);
+    color: #fff;
 }
 
 * {
@@ -99,17 +133,15 @@ html {
     scroll-behavior: smooth;
 }
 
-
-
 /* --- Body with Grid Background Design --- */
 body {
     font-family: var(--font-body);
     background-color: var(--bg-color);
     
-    /* Elegant, ultra-faint layout grid lines */
+    /* Elegant, ultra-faint layout grid lines adapted for theme swapping */
     background-image: 
-        linear-gradient(rgba(87, 98, 56, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(87, 98, 56, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(87, 98, 56, var(--grid-opacity)) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(87, 98, 56, var(--grid-opacity)) 1px, transparent 1px);
     background-size: 80px 80px;
     background-position: center top;
     
@@ -117,8 +149,8 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    transition: background-color 0.4s ease, color 0.4s ease;
 }
-
 
 /* --- Moving Ambient Glows (Orbs) --- */
 body::before,
@@ -198,7 +230,7 @@ p { font-size: 0.95rem; color: var(--text-muted); }
 /* Card Hover Effect */
 .soft-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(44, 48, 34, 0.08);
+    box-shadow: 0 15px 30px rgba(44, 48, 34, 0.15);
 }
 
 /* --- Buttons --- */
@@ -224,6 +256,7 @@ p { font-size: 0.95rem; color: var(--text-muted); }
 }
 .btn-primary:hover { 
     background-color: var(--text-main); 
+    color: var(--bg-color);
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(44, 48, 34, 0.15);
 }
@@ -237,25 +270,9 @@ p { font-size: 0.95rem; color: var(--text-muted); }
 .btn-secondary:hover { 
     border-color: var(--text-main); 
     background-color: var(--text-main);
-    color: #fff;
+    color: var(--bg-color);
     transform: translateY(-3px);
     box-shadow: 0 10px 20px rgba(44, 48, 34, 0.15);
-}
-
-/* --- Navigation --- */
-.navbar {
-    padding: 2rem 0;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    z-index: 10;
-}
-
-.nav-brand {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
 }
 
 /* --- Hero Section --- */
@@ -303,7 +320,7 @@ p { font-size: 0.95rem; color: var(--text-muted); }
 /* Hero Image Hover Effect */
 .image-wrapper:hover {
     transform: translateY(-10px) rotate(1deg);
-    box-shadow: 0 20px 40px rgba(44, 48, 34, 0.1);
+    box-shadow: 0 20px 40px rgba(44, 48, 34, 0.15);
 }
 
 .image-wrapper img {
@@ -463,7 +480,7 @@ p { font-size: 0.95rem; color: var(--text-muted); }
 /* Tag Hover */
 .tag:hover {
     background-color: var(--text-main);
-    color: #fff;
+    color: var(--bg-color);
     border-color: var(--text-main);
 }
 
@@ -665,19 +682,79 @@ footer {
 }
 
 /* --- Responsive --- */
+/* Tablets and Small Desktops */
 @media (max-width: 992px) {
-    .hero { flex-direction: column; text-align: left; }
-    .hero-image { justify-content: flex-start; margin-top: 2rem; }
+    .hero { 
+        flex-direction: column; 
+        text-align: center; 
+        padding-top: 130px; /* Gives the navbar room to breathe */
+        gap: 2rem;
+    }
+    .hero-content { max-width: 100%; }
+    .hero-image { justify-content: center; width: 100%; }
+    .hero-cta, .hero-stats { justify-content: center; }
     
-    .about-grid, .skills-grid, .contact-box { grid-template-columns: 1fr; }
+    .about-grid, .skills-grid, .contact-box { 
+        grid-template-columns: 1fr; 
+        gap: 3rem; 
+    }
     .testimonial-grid { grid-template-columns: 1fr 1fr; }
+    
+    /* Fix: Lowered 350px to 280px so it fits on mobile devices */
+    .projects-grid { 
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    }
 }
 
+/* Mobile Phones */
 @media (max-width: 768px) {
-    h1 { font-size: 3rem; }
-    .timeline-row { grid-template-columns: 1fr; }
-    .time-left { text-align: left; padding-bottom: 0.5rem; }
+    /* Fluid Typography */
+    h1 { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+    h2 { font-size: clamp(1.8rem, 6vw, 2.2rem); }
+    
+    .section-padding { padding: 80px 0; } /* Tighter sections on mobile */
+    .soft-card { padding: 1.5rem; } /* Less internal padding on cards */
+
+    /* Navbar Fixes */
+    .navbar { width: 95%; top: 10px; }
+    .nav-wrapper { padding: 0.6rem 1rem; }
+    .nav-menu { display: none; } /* Hides text links on mobile to prevent layout breaking */
+    .nav-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+    
+    /* Stack Hero Elements */
+    .hero-cta { flex-direction: column; gap: 1rem; width: 100%; }
+    .btn { width: 100%; }
+    .hero-stats { flex-direction: column; gap: 1rem; align-items: center; }
+    
+    /* Timeline Fixes */
+    .timeline-row { grid-template-columns: 1fr; margin-bottom: 2rem; }
+    .time-left { text-align: left; padding-top: 0; padding-bottom: 0.5rem; }
     .time-center { display: none; }
-    .testimonial-grid { grid-template-columns: 1fr; }
-    .contact-box { padding: 2rem; }
+    .time-right { padding: 0; }
+    
+    /* Grid Adjustments */
+    .testimonial-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .contact-box { padding: 2rem 1.5rem; gap: 2rem; text-align: center; }
+    
+    /* Footer Stacking */
+    .footer-content { 
+        flex-direction: column; 
+        align-items: center; 
+        gap: 1.5rem; 
+        text-align: center; 
+    }
+}
+
+/* Extra Small Phones (e.g., iPhone SE) */
+@media (max-width: 480px) {
+    .projects-grid { grid-template-columns: 1fr; } /* Forces a single column */
+    .stats-circular { grid-template-columns: 1fr; gap: 1.5rem; }
+    .image-wrapper { max-width: 100%; }
+    .badge { 
+        width: 90px; 
+        height: 90px; 
+        font-size: 0.65rem; 
+        bottom: -15px; 
+        left: -10px; 
+    }
 }

@@ -38,11 +38,19 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
 
-                <!-- CTA -->
-                <a href="#contact" class="nav-btn">
-                    Let's talk
-                    <span>↗</span>
-                </a>
+                <!-- Theme Toggle & CTA Container -->
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark/light theme">
+                        <span id="theme-icon">🌙</span>
+                    </button>
+
+                    <!-- CTA -->
+                    <a href="#contact" class="nav-btn">
+                        Let's talk
+                        <span>↗</span>
+                    </a>
+                </div>
 
             </div>
 
@@ -148,7 +156,6 @@
                     
                     </div>
 
-
                 </div>
 
             </div>
@@ -230,7 +237,7 @@
         <span class="eyebrow">Selected Works</span>
 
         <h2 class="reveal fade-up">
-            A handful of recent collaborations.
+            The Client-Centric Professional.
         </h2>
 
         <div class="projects-grid">
@@ -238,20 +245,20 @@
             <div class="project-card soft-card reveal fade-up">
 
                 <div class="project-img">
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80" alt="Project 1">
+                    <img src="images/jemuel_m.jpg" alt="Project 1">
                 </div>
 
                 <div class="project-info">
 
                     <div class="tags">
-                        <span class="tag">Web Design</span>
-                        <span class="tag">Development</span>
+                        <span class="tag">Professional Car Dealer</span>
+                        <span class="tag">Expert Finding Good Quality</span>
                     </div>
 
-                    <h3>Aura Studio</h3>
+                    <h3></h3>
 
                     <p>
-                        Minimalist e-commerce experience for a premium brand.
+                        Dedicated Automotive Consultant | Helping Drivers Find the Perfect Vehicle with Transparency & Integrity.
                     </p>
 
                 </div>
@@ -301,7 +308,7 @@
                 </div>
 
                 <div class="input-group">
-                    <input type="text" placeholder="Please Reach OutS" required>
+                    <input type="text" placeholder="Please Reach Out" required>
                     <span class="arrow">→</span>
                 </div>
 
@@ -337,6 +344,37 @@
         </div>
 
     </footer>
+
+    <!-- Theme Toggle Implementation Logic -->
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        // Fetch persistent browser choice or fall back to system dark-mode setting
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.textContent = '☀️';
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            themeIcon.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            let currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.textContent = '🌙';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.textContent = '☀️';
+            }
+        });
+    </script>
 
     <script src="script.js"></script>
 
